@@ -4,10 +4,10 @@ angular.module('app.routes', [])
 
 
 .state('tabsController.reproducir', {
-url: '/prueba',
+url: '/CapturarAudio',
 views: {
-  templateUrl: 'templates/playlist.html',
-  controller: 'verNotificacionCtrl'
+  templateUrl: 'templates/audio.html',
+  controller: 'alertGrabar'
 }
 })
 
