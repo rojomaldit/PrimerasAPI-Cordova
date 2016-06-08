@@ -8,7 +8,7 @@ angular.module('app.controllers', [])
 	var file;
 	var path;
 	var media;
-	
+
 	function falloGrabacion(){
 		alert("fallo grabación");
 	}
@@ -52,10 +52,72 @@ angular.module('app.controllers', [])
 		$scope.pararAudio = function(){
 			media.stop();
 		}
-	})
+})
    
 .controller('grabacionesCtrl', function($scope) {
+	var media;
+	
+	var exitoCarga = function(entries){
+		//var str = JSON.stringify(entries, null, 4);
+		$scope.files=entries;
+		$scope.$apply();
+	}
 
-   
+	var failCarga = function(){
+		alert("Algo fallo papu...");
+	}
+
+	//var direccion = "file:///storage/emulated/0/Sounds/"; 			//Direccion de Agus
+	var direccion = cordova.file.externalRootDirectory + "/Sounds/";	//De Max (tambien para muchos mas)
+
+	window.resolveLocalFileSystemURL(direccion, function(DirEntry){
+		var directoryReader = DirEntry.createReader();
+		directoryReader.readEntries(exitoCarga,failCarga);
+	});
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	
+		
+	$scope.playRecordedAudio = function(name){
+		media = new Media(direccion+name);
+		media.release();
+		media.play();
+	}
+
+	$scope.stopRecordedAudio = function(){
+		media.stop();
+	}
+
+	var exitoEliminacion = function(fileEntry){
+			fileEntry.remove();
+			alert("se ha eliminado el audio");
+		}
+	var falloEliminacion = function(){
+		alert("Fallo la eliminacion");
+	}
+	
+	var onDelete = function(buttonIndex, name){
+		if(buttonIndex==1){
+			window.resolveLocalFileSystemURL(direccion+name, exitoEliminacion, falloEliminacion);
+		}
+		else{
+			//
+		}
+	}
+
+	$scope.deleteRecordedAudio = function(name){
+
+		navigator.notification.confirm(
+			'¿Realmente desea eliminar?',
+			function(buttonIndex){
+				onDelete(buttonIndex, name);
+			},
+			'Eliminando audio',
+			['Aceptar','Cancelar']
+		);
+		
+	}
+
+	
+
 })
-       

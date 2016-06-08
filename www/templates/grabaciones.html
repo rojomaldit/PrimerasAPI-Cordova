@@ -7,16 +7,17 @@
             </label>
         </div>
 
-        <button  id="grabarAudio-button7" class="button button-assertive  button-block" >Listado de Grabaciones</button> 
+        <button  id="grabarAudio-button7" class="button button-assertive  button-block" >Sus Grabaciones Fuerón...</button> 
 
 
 
-         <div class="list card" ng-repeat="f in files | filter:myFilter">
- 
+        <div class="list card" ng-repeat="f in files | filter:myFilter">
+          
           <div class="item item-avatar">
             <img src="img/wave.png">
+
             <h2>{{f.name}}</h2>
-            <p>Rock</p>
+            
           </div>
  
           <div class="item tabs tabs-secondary tabs-icon-left">
@@ -24,13 +25,18 @@
               <i class="icon ion-ios-play"></i>
               Play
             </a>
-            <a class="tab-item" href="#" ng-click="deleteRecordedAudio()">
+            <a class="tab-item" href="#" ng-click="stopRecordedAudio(f)">
               <i class="icon ion-android-checkbox-blank"></i>
               Stop
+            </a>
+            <a class="tab-item" href="#" ng-click="deleteRecordedAudio(f.name)">
+              <i class="icon ion-trash-a"></i>
+              Eliminar
             </a>
           </div>
  
         </div>
+
  
     </ion-content>
 </ion-view>
